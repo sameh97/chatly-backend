@@ -14,7 +14,6 @@ const start = async () => {
 
 const connectDB = async () => {
   try {
-    // Call the dbConnect function with the mongoUri
     const conn = await dbConnect(MONGO_DB_URL);
 
     console.log("Connected to the database successfully");
