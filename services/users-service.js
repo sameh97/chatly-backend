@@ -4,6 +4,8 @@ import { AuthenticationError } from "../exceptions/authentication-error.js";
 import { getByEmail, save } from "../repositories/users-repository.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import { startTransaction } from "../common/transaction-utils.js";
+import loggerConfig from "../common/logger-config.js";
 dotenv.config();
 
 export const createUser = async (user) => {
@@ -11,18 +13,31 @@ export const createUser = async (user) => {
     throw new Error("User is not defined");
   }
   // TODO: create transaction
+  const session = await startTransaction();
+
   try {
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     const userWithHashedPassword = { ...user, password: hashedPassword };
 
+    loggerConfig.info(`Creating user: ${user.email}`);
+
     const createdUser = await save(userWithHashedPassword);
 
-    //TODO: add logs
+    loggerConfig.info("User created successfully", { user: createdUser });
+
+    session.commitTransaction();
+
+    session.endSession();
 
     return createdUser;
   } catch (error) {
-    //TODO: add logs
+    loggerConfig.error("Error while creating user.", { error });
+
+    session.abortTransaction();
+
+    session.endSession();
+
     throw new Error(error.message);
   }
 };

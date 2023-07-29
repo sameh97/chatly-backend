@@ -8,9 +8,9 @@ export const save = async (user) => {
     throw new Error("User is undefined or lacks of credentials");
   }
 
-  const userInDB = await UserModel.find({ email: user.email });
+  const userInDB = await UserModel.findOne({ email: user.email });
 
-  if (hasValue(userInDB[0] && hasValue(userInDB[0].email))) {
+  if (hasValue(userInDB && hasValue(userInDB.email))) {
     throw new AlreadyExsistsError(
       `User with email: ${user.email} already exsist`
     );
