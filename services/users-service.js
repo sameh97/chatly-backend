@@ -12,7 +12,6 @@ export const createUser = async (user) => {
   if (!hasValue(user)) {
     throw new Error("User is not defined");
   }
-  // TODO: create transaction
   const session = await startTransaction();
 
   try {
