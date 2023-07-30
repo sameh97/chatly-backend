@@ -34,7 +34,6 @@ export const createUser = async (user) => {
     loggerConfig.error("Error while creating user.", { error });
 
     session.abortTransaction();
-
     session.endSession();
 
     throw new Error(error.message);

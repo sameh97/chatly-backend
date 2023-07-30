@@ -1,3 +1,4 @@
+import loggerConfig from "../common/logger-config.js";
 import { AuthenticationError } from "../exceptions/authentication-error.js";
 import * as usersService from "./../services/users-service.js";
 
@@ -18,10 +19,12 @@ export const login = async (req, res, next) => {
 
   try {
     const token = await usersService.login(email, password);
-    //TODO: add logs
+
+    loggerConfig.info(`User with email ${email} logged in successfully.`);
+
     res.status(200).send(token);
   } catch (error) {
-    //TODO: add logs
+    loggerConfig.error(`Error occured during login: ${error.message}`);
     next(error);
   }
 };
