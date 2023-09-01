@@ -16,10 +16,11 @@ export const create = async (req, res, next) => {
 };
 
 export const getByUserId = async (req, res, next) => {
-  const userId = req.body;
+  const userId = req.query.userId;
+  
   try {
     const conversations = await getConversations(userId);
-    return conversations;
+    res.status(200).json(conversations);
   } catch (error) {
     console.error("Error while retreving conversations:", error.message);
     next(error);
