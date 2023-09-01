@@ -2,7 +2,7 @@ import loggerConfig from "../common/logger-config.js";
 import { sendMessage } from "../services/messages-service.js";
 
 export const send = async (req, res, next) => {
-  const message = req.body.message;
+  const message = req.body;
 
   try {
     const sentMessage = await sendMessage(message);

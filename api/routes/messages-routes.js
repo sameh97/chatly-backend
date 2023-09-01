@@ -3,6 +3,6 @@ import { send } from "../../controllers/messages-controller.js";
 
 const messagesApi = express.Router();
 
-messagesApi.post("send", send);
+messagesApi.post("/sendMessage", send);
 
 export default messagesApi;

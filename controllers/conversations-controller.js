@@ -4,7 +4,7 @@ import {
 } from "../services/conversation-service.js";
 
 export const create = async (req, res, next) => {
-  const conversation = req.body.conversation;
+  const conversation = req.body;
 
   try {
     const createdConversation = await createConversation(conversation);
@@ -16,7 +16,7 @@ export const create = async (req, res, next) => {
 };
 
 export const getByUserId = async (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.body;
   try {
     const conversations = await getConversations(userId);
     return conversations;
