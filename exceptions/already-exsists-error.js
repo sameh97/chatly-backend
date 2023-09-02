@@ -1,4 +1,4 @@
-export class AlreadyExsistsError extends Error {
+export class AlreadyExistsError extends Error {
   constructor(message) {
     super(message);
   }

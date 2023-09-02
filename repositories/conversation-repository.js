@@ -1,7 +1,7 @@
 import UserConversationModel from "../models/user-conversation.js";
 import { hasValue } from "../common/app-utils.js";
 import { NotFoundErr } from "../exceptions/not-found-error.js";
-import { AlreadyExsistsError } from "../exceptions/already-exsists-error.js";
+import { AlreadyExistsError } from "../exceptions/already-exsists-error.js";
 
 export const save = async (conversation) => {
   try {
@@ -10,7 +10,7 @@ export const save = async (conversation) => {
     }
 
     const { user1, user2, lastMessage } = conversation;
-
+console.log(conversation);
     // Check if a conversation with the same participants already exists.
     const existingConversation = await UserConversationModel.findOne({
       $or: [
@@ -20,7 +20,7 @@ export const save = async (conversation) => {
     });
 
     if (hasValue(existingConversation)) {
-      throw new AlreadyExsistsError("Conversation already exists with the same participants");
+      throw new AlreadyExistsError("Conversation already exists with the same participants");
     }
 
     const newConversation = new UserConversationModel({

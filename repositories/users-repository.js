@@ -1,5 +1,5 @@
 import { hasValue } from "../common/app-utils.js";
-import { AlreadyExsistsError } from "../exceptions/already-exsists-error.js";
+import { AlreadyExistsError } from "../exceptions/already-exsists-error.js";
 import { NotFoundErr } from "../exceptions/not-found-error.js";
 import UserModel from "../models/user.js";
 
@@ -11,7 +11,7 @@ export const save = async (user) => {
   const userInDB = await UserModel.findOne({ email: user.email });
 
   if (hasValue(userInDB && hasValue(userInDB.email))) {
-    throw new AlreadyExsistsError(
+    throw new AlreadyExistsError(
       `User with email: ${user.email} already exsist`
     );
   }

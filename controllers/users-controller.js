@@ -22,7 +22,9 @@ export const login = async (req, res, next) => {
 
     loggerConfig.info(`User with email ${email} logged in successfully.`);
 
-    res.status(200).send(token);
+    res.setHeader("Authorization", token);
+    res.setHeader("Access-Control-Expose-Headers", "Authorization");
+    res.status(200).send({});
   } catch (error) {
     loggerConfig.error(`Error occured during login: ${error.message}`);
     next(error);
