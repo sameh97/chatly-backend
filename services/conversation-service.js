@@ -3,6 +3,8 @@ import loggerConfig from "../common/logger-config.js";
 import {
   getAllConversationsByUserId,
   save,
+  getConversationIfExists,
+  update,
 } from "../repositories/conversation-repository.js";
 
 export const createConversation = async (conversation) => {
@@ -44,6 +46,52 @@ export const getConversations = async (userId) => {
   } catch (error) {
     loggerConfig.error(
       `Error while trying to retreve conversations for user: ${userId} Error: ${error}`
+    );
+    throw error;
+  }
+};
+
+export const updateConversation = async (conversationId, newLastMessageId) => {
+  if (!hasValue(conversationId) || !hasValue(newLastMessageId)) {
+    throw new Error("Conversation ID or updates are undefined");
+  }
+
+  try {
+    loggerConfig.info(`Updating conversation with ID: ${conversationId}`);
+
+    const updatedConversation = await update(conversationId, newLastMessageId);
+
+    loggerConfig.info(
+      `Conversation updated successfully: ${JSON.stringify(
+        updatedConversation
+      )}`
+    );
+
+    return updatedConversation;
+  } catch (error) {
+    loggerConfig.error(`Error while updating conversation: ${error}`);
+    throw error;
+  }
+};
+
+export const checkIfConversationExists = async (senderId, receiverId) => {
+  if (!hasValue(senderId) || !hasValue(receiverId)) {
+    throw new Error(
+      "Error while checking existance of conversation, senderId or receiverId is not defined"
+    );
+  }
+
+  try {
+    loggerConfig.info("retriving conversation");
+    const existingConversation = await getConversationIfExists(
+      senderId,
+      receiverId
+    );
+
+    return existingConversation;
+  } catch (error) {
+    loggerConfig.error(
+      `Error while checking existance of conversation, for users: ${senderId} ,${receiverId} , Error: ${error}`
     );
     throw error;
   }

@@ -13,10 +13,23 @@ export const createMessage = async (message) => {
   const newMessage = new MessageModel({
     senderId: message.senderId,
     receiverId: message.receiverId,
+    conversationId: message.conversationId,
     content: message.content,
   });
 
   await newMessage.save();
 
   return newMessage;
+};
+
+export const getAllMessagesByConversationId = async (conversationId) => {
+  if (!hasValue(conversationId)) {
+    throw new Error(
+      "Error while retrieving all messages, conversationId is not defined"
+    );
+  }
+
+  const messages = await MessageModel.find({ conversationId }); // Filter messages by conversationId
+
+  return messages;
 };

@@ -11,6 +11,11 @@ const messageSchema = new mongoose.Schema({
     ref: "Users",
     required: true,
   },
+  conversationId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserConversation",
+    required: true,
+  },
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
