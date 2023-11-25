@@ -24,12 +24,13 @@ export const sendMessage = async (message) => {
       message.senderId,
       message.receiverId
     );
-    console.log(existingConversation);
+
+    
     if (!hasValue(existingConversation)) {
       const newConversationObject = {
         user1: message.senderId,
         user2: message.receiverId,
-        lastMessage: message.content,
+        lastMessage: null,
       };
       // If no conversation exists, create a new one
       const newConversation = await createConversation(newConversationObject);
