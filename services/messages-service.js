@@ -49,6 +49,12 @@ export const sendMessage = async (message) => {
     const createdMessage = await createMessage(message);
     loggerConfig.info(`Message created successfully`);
 
+    // Emit the message to the sender
+    io.to(message.senderId).emit("newMessage", createdMessage);
+
+    // Emit the message to the receiver
+    io.to(message.receiverId).emit("newMessage", createdMessage);
+
     loggerConfig.info(`Updateding last message`);
     await updateConversation(message.conversationId, createdMessage._id);
     loggerConfig.info(`Updated last message successfully.`);

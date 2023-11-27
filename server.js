@@ -2,12 +2,14 @@ import http from "http";
 import { PORT, MONGO_DB_URL } from "./common/consts.js";
 import app from "./app.js";
 import dbConnect from "./config/database.js";
+import { connectWebSocket } from "./services/socket-service.js";
 
 const start = async () => {
   const server = http.createServer(app);
   const conn = await connectDB();
 
   server.listen(PORT, () => {
+    connectWebSocket(server);
     console.log(`Server started on port: ${PORT}`);
   });
 };
