@@ -29,7 +29,7 @@ export const getAllMessagesByConversationId = async (conversationId) => {
     );
   }
 
-  const messages = await MessageModel.find({ conversationId }); // Filter messages by conversationId
+  const messages = await MessageModel.find({ conversationId }).sort({ createdAt: 1 });
 
   return messages;
 };
