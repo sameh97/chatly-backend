@@ -11,6 +11,7 @@ import {
   updateConversation,
 } from "./conversation-service.js";
 import { getIoInstance } from "./socket-service.js";
+import { getSocketIdByUserId} from "./../services/cache-service.js";
 
 export const sendMessage = async (message) => {
   if (!hasValue(message)) {
@@ -53,11 +54,13 @@ export const sendMessage = async (message) => {
     // Get io instance
     const io = getIoInstance();
     
+    const socketId = getSocketIdByUserId(message.receiverId);
+
     // Emit the message to the sender
-    io.to(message.senderId).emit("newMessage", createdMessage);
+    // io.to(message.senderId).emit("newMessage", createdMessage);
 
     // Emit the message to the receiver
-    io.to(message.receiverId).emit("newMessage", createdMessage);
+    io.to(socketId).emit("newMessage", createdMessage);
 
     loggerConfig.info(`Updateding last message`);
     await updateConversation(message.conversationId, createdMessage._id);
