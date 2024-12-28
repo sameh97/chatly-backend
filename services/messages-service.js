@@ -10,6 +10,7 @@ import {
   createConversation,
   updateConversation,
 } from "./conversation-service.js";
+import { getIoInstance } from "./socket-service.js";
 
 export const sendMessage = async (message) => {
   if (!hasValue(message)) {
@@ -49,6 +50,9 @@ export const sendMessage = async (message) => {
     const createdMessage = await createMessage(message);
     loggerConfig.info(`Message created successfully`);
 
+    // Get io instance
+    const io = getIoInstance();
+    
     // Emit the message to the sender
     io.to(message.senderId).emit("newMessage", createdMessage);
 

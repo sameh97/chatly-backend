@@ -53,7 +53,7 @@ export const login = async (email, password) => {
 
   const userPayload = userInDB.toObject();
 
-  const token = await jsonwebtoken.sign(
+  const token = jsonwebtoken.sign(
     userPayload,
     process.env.ACCESS_TOKEN_SECRET_KEY,
     { expiresIn: "1h" }

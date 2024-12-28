@@ -2,8 +2,10 @@ import { addUserSocketMapping } from "./cache-service.js";
 
 import { Server as SocketIOServer } from "socket.io";
 
+let io;
+
 export const connectWebSocket = (server) => {
-  const io = new SocketIOServer(server); // Use new keyword here
+  io = new SocketIOServer(server); // Use new keyword here
 
   io.on("connection", (socket) => {
     console.log("User connected");
@@ -22,3 +24,11 @@ export const connectWebSocket = (server) => {
     });
   });
 };
+
+export const getIoInstance  = () => {
+  if(!io) {
+    throw new Error("Socket.IO instance is not defiend yet")
+  }
+
+  return io;
+}
