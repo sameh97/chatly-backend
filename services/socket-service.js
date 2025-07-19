@@ -18,7 +18,10 @@ export const connectWebSocket = (server) => {
     console.log("User connected");
 
     socket.on("send-client-data", (clientData) => {
- 
+      if (!clientData || !clientData._id) {
+        console.error("Invalid clientData received:", clientData);
+        return; // Don't proceed if clientData is missing or invalid
+      }
       addUserSocketMapping(clientData._id, socket.id);
     });
 
