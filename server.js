@@ -8,7 +8,7 @@ const start = async () => {
   const server = http.createServer(app);
   const conn = await connectDB();
 
-  server.listen(PORT, () => {
+  server.listen(PORT, '0.0.0.0', () => {
     connectWebSocket(server);
     console.log(`Server started on port: ${PORT}`);
   });
